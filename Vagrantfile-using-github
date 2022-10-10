@@ -1,0 +1,43 @@
+Vagrant.configure("2") do |config|
+
+#########################
+### Domain Controller ###
+#########################
+  config.vm.define "DC" do |dc|
+    dc.vm.box = "cdaf/WindowsServerDC"
+    dc.vm.box_version = "2020.05.14"
+    dc.vm.network "private_network", ip: "10.0.0.50"
+    dc.vm.provision "shell", inline: <<-'SHELL'
+    IEX((new-object net.webclient).downloadstring("https://raw.githubusercontent.com/wazehell/vulnerable-AD/master/vulnad.ps1"));
+    Invoke-VulnAD -UsersLimit 10 -DomainName "cs.org"
+    echo "Done :)"
+    SHELL
+  end
+  
+#########################
+###  Logging Server   ###
+#########################
+  config.vm.define "Logger" do |sv1|
+    sv1.vm.box = "ubuntu/bionic64"
+    sv1.vm.network "private_network", ip: "10.0.0.100"
+    sv1.vm.provision "shell", inline: <<-'SHELL'
+		apt install -y git wget python3
+    snap install docker
+		git clone https://github.com/JustAyce/3204.git /opt/logger
+    chmod +x -R /opt/logger/*
+		/opt/logger/setup.sh
+		SHELL
+  end
+
+###########################
+### Virtual Box Setting ###
+###########################
+  config.vm.provider "virtualbox" do |vb|
+  #   # Display the VirtualBox GUI when booting the machine
+  #   vb.gui = true
+    # Customize the amount of memory on the VM:
+    vb.memory = "4096"
+    vb.cpus = 4
+  end
+
+end
