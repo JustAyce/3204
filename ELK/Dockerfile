@@ -2,7 +2,7 @@ FROM ubuntu:22.04
 
 RUN apt update
 
-RUN apt install -y wget python
+RUN apt install -y wget python3
 
 RUN wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.4.2-linux-x86_64.tar.gz && \
 tar -xzf elasticsearch-8.4.2-linux-x86_64.tar.gz && \
