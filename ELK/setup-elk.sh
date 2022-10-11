@@ -1,2 +1,4 @@
 #/bin/bash
-docker build -t docker-elk /opt/logger/ELK/Dockerfile
+cd /home/vagrant/3204/ELK/
+docker build . -t justayce/elk
+docker run -d --name docker-elk justayce/elk
