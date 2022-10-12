@@ -41,4 +41,14 @@ Vagrant.configure("2") do |config|
       chmod 755 -R /home/vagrant/3204/setup.sh
     SHELL
   end
+  
+#########################
+###    Vyos Router    ###
+#########################
+  config.vm.define "Vyos Router" do |rtr|
+  rtr.vm.box = "vyos/current"
+  rtr.vm.network "private_network", ip: "10.0.0.10"
+  rtr.vm.network "private_network", ip: "10.0.0.20"
+  rtr.vm.provision "shell", path: "setup-vyos.sh"
+  end
 end
