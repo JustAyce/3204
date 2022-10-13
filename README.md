@@ -1,5 +1,9 @@
 # 3204
 
+- Vagrantfile.sh
+- setup.sh
+- setup-vyos.sh
+
 ## ELK
   - Dockerfile
   - setup-elk.sh
@@ -8,8 +12,3 @@
   - Dockerfile
   - setup-snort.sh
   - send_logs.py
-
-
-- Vagrantfile.sh
-- setup.sh
-- setup-vyos.sh
