@@ -28,7 +28,7 @@ Vagrant.configure("2") do |config|
         chmod 755 -R /home/vagrant/3204/snort
         chmod 755 -R /home/vagrant/3204/vyos
         chmod 755 -R /home/vagrant/3204/setup.sh
-        ~/3204/setup.sh
+        /home/vagrant/3204/setup.sh
       SHELL
     end
   end
