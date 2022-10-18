@@ -16,7 +16,7 @@ Vagrant.configure("2") do |config|
   #########################
   ###   Ubuntu Server   ###
   #########################
-    config.vm.define "Logger" do |sv1|
+    config.vm.define "Ubuntu" do |sv1|
       sv1.vm.box = "ubuntu/bionic64"
       sv1.vm.box_version="20221010.0.0"
       sv1.vm.network "private_network", ip: "10.0.0.100"
