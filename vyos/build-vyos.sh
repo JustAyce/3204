@@ -1,11 +1,12 @@
-mkdir /home/vagrant/vyos && cd /home/vagrant/vyos
+mkdir /home/vagrant/vyos
+cd /home/vagrant/vyos
 wget https://s3-us.vyos.io/rolling/current/vyos-1.4-rolling-202209260217-amd64.iso
 mkdir /home/vagrant/vyos/rootfs
 sudo chmod 777 vyos-1.4-rolling-202209260217-amd64.iso
 sudo mount -o loop vyos-1.4-rolling-202209260217-amd64.iso rootfs
 sudo apt-get install -y squashfs-tools
 snap install docker
-mkdir unsquashfs
+mkdir /home/vagrant/vyos/unsquashfs
 sudo unsquashfs -f -d unsquashfs/ rootfs/live/filesystem.squashfs
 # sudo tar -C unsquashfs -c . | sudo docker import - vyos:1.4-rolling-202209260217
 sudo tar -zcvf test.tar.gz unsquashfs && sudo docker import test.tar.gz vyos:1.4-rolling-202111281249
