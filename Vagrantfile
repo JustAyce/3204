@@ -23,12 +23,12 @@ Vagrant.configure("2") do |config|
       sv1.vm.provision "shell", inline: <<-'SHELL'
         apt install -y git wget python3
         snap install docker
-        git clone https://github.com/JustAyce/3204.git ~/3204
-        chmod 755 -R ~/3204/ELK
-        chmod 755 -R ~/3204/snort
-        chmod 755 -R ~/3204/vyos
-        chmod 755 -R ~/3204/setup.sh
-        ~/3204/setup.sh
+        git clone https://github.com/JustAyce/3204.git /home/vagrant/3204
+        chmod 755 -R /home/vagrant/3204/ELK
+        chmod 755 -R /home/vagrant/3204/snort
+        chmod 755 -R /home/vagrant/3204/vyos
+        chmod 755 -R /home/vagrant/3204/setup.sh
+        /home/vagrant/3204/setup.sh
       SHELL
     end
   end
