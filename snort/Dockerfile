@@ -59,6 +59,8 @@ RUN mkdir -p /var/log/snort && \
 
 COPY snort.conf /etc/snort/snort.conf
 
-RUN echo ${RULE} > /etc/snort/rules/local.rules && \
-    snort -A fast -c /etc/snort/snort.conf -q -i enp0s3
+RUN echo ${RULE} > /etc/snort/rules/local.rules
+
 CMD python3 -m pip install elasticsearch
+
+CMD ["snort", "-T", "-i", ens33, "-c", "/etc/snort/etc/snort.conf"]
