@@ -59,25 +59,25 @@ RUN mkdir -p /var/log/snort && \
     # mkdir -p /etc/snort/etc && \
 
     # mysnortrules rules
-    cp -r /opt/rules /etc/snort/rules && \
+    # cp -r /opt/rules /etc/snort/rules && \
     # Due to empty folder so mkdir
     mkdir -p /etc/snort/preproc_rules && \
     mkdir -p /etc/snort/so_rules && \
     # cp -r /opt/preproc_rules /etc/snort/preproc_rules && \
     # cp -r /opt/so_rules /etc/snort/so_rules && \
-    cp -r /opt/etc /etc/snort/etc
+    # cp -r /opt/etc /etc/snort/etc
 
-# snapshot2972 rules
-# cp -r /opt/rules /etc/snort/rules && \
-# cp -r /opt/preproc_rules /etc/snort/preproc_rules && \
-# cp -r /opt/so_rules /etc/snort/so_rules && \
-# cp -r /opt/etc /etc/snort/etc && \
+    # snapshot2972 rules
+    # cp -r /opt/rules /etc/snort/rules && \
+    # cp -r /opt/preproc_rules /etc/snort/preproc_rules && \
+    # cp -r /opt/so_rules /etc/snort/so_rules && \
+    # cp -r /opt/etc /etc/snort/etc && \
 
-# touch /etc/snort/rules/local.rules && \
-# touch /etc/snort/rules/white_list.rules /etc/snort/rules/black_list.rules
+    echo "alert icmp any any -> $HOME_NET any (msg:'They tryna ping us'; sid:1000002; rev:1;)" > /etc/snort/rules/local.rules && \
+    # touch /etc/snort/rules/white_list.rules /etc/snort/rules/black_list.rules
 
-# Clean up APT when done.
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    # Clean up APT when done.
+    RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     /opt/snort-${SNORT_VERSION}.tar.gz /opt/daq-${DAQ_VERSION}.tar.gz
 
 COPY snort.conf /etc/snort/snort.conf
