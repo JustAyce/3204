@@ -11,7 +11,15 @@ Vagrant.configure("2") do |config|
   #########################
   ###  Windows Machine  ###
   #########################
-    
+    config.vm.define "Windows Machine" do |win|
+      win.vm.box = "gusztavvargadr/windows-10"
+      win.vm.box_version="2102.0.2208"
+      win.vm.network "private_network", ip: "10.0.0.100"
+      win.vm.provision "shell", inline: <<-'SHELL'
+        net user user2 user2 /add
+        echo "Something new"
+      SHELL
+    end
     
   #########################
   ###   Ubuntu Server   ###
