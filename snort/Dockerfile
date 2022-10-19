@@ -74,7 +74,7 @@ RUN mkdir -p /var/log/snort && \
 # cp -r /opt/etc /etc/snort/etc && \
 
 # touch /etc/snort/rules/local.rules && \
-touch /etc/snort/rules/white_list.rules /etc/snort/rules/black_list.rules
+# touch /etc/snort/rules/white_list.rules /etc/snort/rules/black_list.rules
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
