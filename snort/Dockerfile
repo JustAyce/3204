@@ -55,9 +55,9 @@ RUN mkdir -p /var/log/snort && \
     # cp -r /opt/preproc_rules /etc/snort/preproc_rules && \
     # cp -r /opt/so_rules /etc/snort/so_rules && \
     # cp -r /opt/etc /etc/snort/etc && \
-    wget http://d8bd-175-156-193-95.ngrok.io/snort.conf -o /etc/snort/snort.conf
+    ENV RULE 'alert ip any any -> any 80 (msg:"Connecting to OUR port 80";sid: 1000005)'
 
-ENV RULE 'alert ip any any -> any 80 (msg:"Connecting to OUR port 80";sid: 1000005)'
+COPY snort.conf /etc/snort/snort.conf
 
 RUN echo ${RULE} > /etc/snort/rules/local.rules && \
     snort -A fast -c /etc/snort/snort.conf -q -i enp0s3

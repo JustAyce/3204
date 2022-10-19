@@ -13,3 +13,6 @@ CMD ./bin/elasticsearch-certutil ca --silent --pem -out config/certs/ca.zip
 CMD unzip config/certs/ca.zip -d config/certs/
 CMD ./bin/elasticsearch-certutil cert --silent --pem -out config/certs/certs.zip --ca-cert config/certs/ca/ca.crt --ca-key config/certs/ca/ca.key --name websrv --ip 192.168.0.228
 CMD ./bin/elasticsearch -d
+
+EXPOSE 5601 9200 9300 9600 5044
+VOLUME /var/lib/elasticsearch
