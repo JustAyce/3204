@@ -1,4 +1,5 @@
-FROM ubuntu:22.04
+# Snort in Docker
+FROM ubuntu:20.04
 
 RUN apt-get update && apt-get -y install \
     wget \
@@ -30,37 +31,58 @@ RUN wget https://www.snort.org/downloads/snort/daq-${DAQ_VERSION}.tar.gz \
 
 ENV SNORT_VERSION 2.9.20
 RUN wget https://www.snort.org/downloads/snort/snort-${SNORT_VERSION}.tar.gz \
-    && cp /usr/include/tirpc/rpc/* /usr/include/rpc/ \
-    && cp /usr/include/tirpc/netconfig.h /usr/include/ \
     && tar xvfz snort-${SNORT_VERSION}.tar.gz \
     && cd snort-${SNORT_VERSION} \
     && ./configure; make; make install
 
 RUN ldconfig
 
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-    /opt/snort-${SNORT_VERSION}.tar.gz /opt/daq-${DAQ_VERSION}.tar.gz
+# pigrelay
+# RUN wget --no-check-certificate \
+#         https://github.com/John-Lin/pigrelay/archive/master.zip \
+#     && unzip master.zip
 
-# Insert own snort rules and creating of folders
+# snortunsock
+RUN wget --no-check-certificate \
+    https://github.com/John-Lin/snortunsock/archive/master.zip \
+    && unzip master.zip
+
+# ENV SNORT_RULES_SNAPSHOT 2972
+# ADD snortrules-snapshot-${SNORT_RULES_SNAPSHOT} /opt
+# ADD mysnortrules /opt
 RUN mkdir -p /var/log/snort && \
     mkdir -p /usr/local/lib/snort_dynamicrules && \
     mkdir -p /etc/snort && \
+    # mkdir -p /etc/snort/rules && \
+    # mkdir -p /etc/snort/preproc_rules && \
+    # mkdir -p /etc/snort/so_rules && \
+    # mkdir -p /etc/snort/etc && \
 
     # mysnortrules rules
-    # cp -r /opt/rules /etc/snort/rules && \
+    cp -r /opt/rules /etc/snort/rules && \
     # Due to empty folder so mkdir
-    mkdir -p /etc/snort/rules && \
     mkdir -p /etc/snort/preproc_rules && \
     mkdir -p /etc/snort/so_rules && \
     # cp -r /opt/preproc_rules /etc/snort/preproc_rules && \
     # cp -r /opt/so_rules /etc/snort/so_rules && \
-    # cp -r /opt/etc /etc/snort/etc && \
-    ENV RULE 'alert ip any any -> any 80 (msg:"Connecting to OUR port 80";sid: 1000005)'
+    cp -r /opt/etc /etc/snort/etc
+
+# snapshot2972 rules
+# cp -r /opt/rules /etc/snort/rules && \
+# cp -r /opt/preproc_rules /etc/snort/preproc_rules && \
+# cp -r /opt/so_rules /etc/snort/so_rules && \
+# cp -r /opt/etc /etc/snort/etc && \
+
+# touch /etc/snort/rules/local.rules && \
+touch /etc/snort/rules/white_list.rules /etc/snort/rules/black_list.rules
+
+# Clean up APT when done.
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    /opt/snort-${SNORT_VERSION}.tar.gz /opt/daq-${DAQ_VERSION}.tar.gz
 
 COPY snort.conf /etc/snort/snort.conf
 
-RUN echo ${RULE} > /etc/snort/rules/local.rules
-
-CMD python3 -m pip install elasticsearch
-
-CMD ["snort", "-T", "-i", ens33, "-c", "/etc/snort/etc/snort.conf"]
+ENV NETWORK_INTERFACE eth0
+# Validate an installation
+# snort -T -i eth0 -c /etc/snort/etc/snort.conf
+CMD ["snort", "-T", "-i", "echo ${NETWORK_INTERFACE}", "-c", "/etc/snort/etc/snort.conf"]
