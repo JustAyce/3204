@@ -2,13 +2,19 @@
 
 - Vagrantfile.sh
 - setup.sh
-- setup-vyos.sh
+- build-vyos.sh
 
 ## ELK
   - Dockerfile
-  - setup-elk.sh
+  - build-elk.sh
 
+## VYOS
+  - build-vyos.sh
+  - configure-vyos.sh
+  
 ## SNORT
   - Dockerfile
-  - setup-snort.sh
+  - build-snort.sh
   - send_logs.py
+  - snort.conf
+  
