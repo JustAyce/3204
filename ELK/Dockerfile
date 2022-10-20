@@ -21,4 +21,3 @@ CMD /opt/elasticsearch-8.4.2/bin/elasticsearch
 
 EXPOSE 5601 9200 9300 9600 5044
 VOLUME /var/lib/elasticsearch
-
