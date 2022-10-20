@@ -4,6 +4,7 @@ FROM ubuntu:20.04
 RUN apt-get update && apt-get -y install \
     wget \
     make \
+    automake \
     gcc \
     build-essential \
     bison \
@@ -26,26 +27,30 @@ WORKDIR /opt
 ENV DAQ_VERSION 2.0.7
 RUN wget https://www.snort.org/downloads/snort/daq-${DAQ_VERSION}.tar.gz \
     && tar xvfz daq-${DAQ_VERSION}.tar.gz \
-    && cd daq-${DAQ_VERSION} \
+    && cd daq-${DAQ_VERSION}
+
+RUN cd daq-${DAQ_VERSION} \
     && ./configure; make; make install
 
 ENV SNORT_VERSION 2.9.20
 RUN wget https://www.snort.org/downloads/snort/snort-${SNORT_VERSION}.tar.gz \
     && tar xvfz snort-${SNORT_VERSION}.tar.gz \
-    && cd snort-${SNORT_VERSION} \
-    && ./configure; make; make install
+    && cd snort-${SNORT_VERSION}
+
+RUN cd snort-${SNORT_VERSION} \
+    && ./configure --enable-sourcefire && make && make install
 
 RUN ldconfig
 
-# pigrelay
-# RUN wget --no-check-certificate \
-#         https://github.com/John-Lin/pigrelay/archive/master.zip \
-#     && unzip master.zip
+# # pigrelay
+# # RUN wget --no-check-certificate \
+# #         https://github.com/John-Lin/pigrelay/archive/master.zip \
+# #     && unzip master.zip
 
-# snortunsock
-RUN wget --no-check-certificate \
-    https://github.com/John-Lin/snortunsock/archive/master.zip \
-    && unzip master.zip
+# # snortunsock
+# RUN wget --no-check-certificate \
+#     https://github.com/John-Lin/snortunsock/archive/master.zip \
+#     && unzip master.zip
 
 # ENV SNORT_RULES_SNAPSHOT 2972
 # ADD snortrules-snapshot-${SNORT_RULES_SNAPSHOT} /opt

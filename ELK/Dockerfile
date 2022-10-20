@@ -15,7 +15,7 @@ RUN wget https://artifacts.elastic.co/downloads/kibana/kibana-8.4.3-linux-x86_64
 # elasticsearch/bin/elasticseac-users ...
 CMD /opt/elasticsearch-8.4.2/bin/elasticsearch-users useradd amanda -p amanda -r superuser
 CMD /opt/elasticsearch-8.4.2/bin/elasticsearch-certutil ca --silent --pem -out /opt/elasticsearch-8.4.2/config/certs/ca.zip
-CMD unzip config/certs/ca.zip -d config/certs/
+CMD unzip /opt/elasticsearch-8.4.2/config/certs/ca.zip -d /opt/elasticsearch-8.4.2/config/certs/
 CMD /opt/elasticsearch-8.4.2/bin/elasticsearch-certutil cert --silent --pem -out /opt/elasticsearch-8.4.2/config/certs/certs.zip --ca-cert /opt/elasticsearch-8.4.2/config/certs/ca/ca.crt --ca-key /opt/elasticsearch-8.4.2/config/certs/ca/ca.key --name websrv --ip 192.168.0.228
 CMD /opt/elasticsearch-8.4.2/bin/elasticsearch
 
