@@ -12,6 +12,11 @@
   - build-vyos.sh
   - configure-vyos.sh
   
+## kali (Ubunutu)
+  - build-kali.sh
+  - C2-crackHash.py
+  - Dockerfile
+  
 ## SNORT (Ubunutu)
   - Dockerfile
   - build-snort.sh
