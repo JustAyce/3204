@@ -14,14 +14,16 @@ RUN apt -y install python3-pip
 
 # Install proxychains
 RUN apt -y install tor proxychains
-COPY config/proxychains.conf /etc/proxychains.conf
-
-# Install exe2hexbat
-RUN apt -y install exe2hexbat
+# COPY config/proxychains.conf /etc/proxychains.conf
 
 # Install ZSH shell with custom settings and set it as default shell
 RUN apt -y install zsh
 RUN sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-COPY config/.zshrc .
+# COPY config/.zshrc .
 
-ENTRYPOINT ["/bin/zsh"]
+COPY C2-crackHash.py .
+
+RUN python3 -m pip install flask
+CMD python3 C2-crackHash.py
+
+# ENTRYPOINT ["/bin/zsh"]
