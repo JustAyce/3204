@@ -10,7 +10,7 @@ RUN apt -y update && DEBIAN_FRONTEND=noninteractive apt -y dist-upgrade && apt -
 RUN apt -y install curl wget vim git net-tools whois netcat-traditional pciutils usbutils
 
 # Install useful languages
-RUN apt -y install python3-pip
+RUN apt -y install python3-pip golang-go
 
 # Install proxychains
 RUN apt -y install tor proxychains
