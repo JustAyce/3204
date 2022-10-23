@@ -37,6 +37,7 @@ CMD cd /opt/HTTPUploadExfil\
 # Set up Hoax Shell
 RUN git clone https://github.com/t3l3machus/hoaxshell.git /opt/hoaxshell \
   && cd /opt/hoaxshell
-  && pip3 install -r requirements.txt
+
+RUN pip3 install -r /opt/hoaxshell/requirements.txt
   
 # ENTRYPOINT ["/bin/zsh"]
