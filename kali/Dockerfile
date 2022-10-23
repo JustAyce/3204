@@ -21,9 +21,18 @@ RUN apt -y install zsh
 RUN sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 # COPY config/.zshrc .
 
+# Crack Password
 COPY C2-crackHash.py .
 
-RUN python3 -m pip install flask
-CMD python3 C2-crackHash.py
+RUN python3 -m pip install flask\
+  && python3 C2-crackHash.py &
+
+# Set up Exfil
+RUN git clone https://github.com/IngoKl/HTTPUploadExfil.git /opt \
+  && cd /opt/HTTPUploadExfil
+  
+CMD cd /opt/HTTPUploadExfil\
+  && go build 
+
 
 # ENTRYPOINT ["/bin/zsh"]
