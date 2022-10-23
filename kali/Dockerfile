@@ -32,11 +32,17 @@ RUN git clone https://github.com/IngoKl/HTTPUploadExfil.git /opt/HTTPUploadExfil
   && cd /opt/HTTPUploadExfil
   
 CMD cd /opt/HTTPUploadExfil\
-  && go build 
+  && go build
+
+#added this
+RUN /opt/HTTPUploadExfil/httpuploadexfil :1337 /home/vagrant/exfildata &
 
 # Set up Hoax Shell
 RUN git clone https://github.com/t3l3machus/hoaxshell.git /opt/hoaxshell \
   && cd /opt/hoaxshell
+  && chmod +x /opt/hoaxshell/hoaxshell.py #added this
+
+RUN python3 /opt/hoaxshell/hoaxshell.py -o -s 10.0.0.100 & #added this
 
 RUN pip3 install -r /opt/hoaxshell/requirements.txt
   
