@@ -34,5 +34,9 @@ RUN git clone https://github.com/IngoKl/HTTPUploadExfil.git /opt/HTTPUploadExfil
 CMD cd /opt/HTTPUploadExfil\
   && go build 
 
-
+# Set up Hoax Shell
+RUN git clone https://github.com/t3l3machus/hoaxshell.git /opt/hoaxshell \
+  && cd /opt/hoaxshell
+  && pip3 install -r requirements.txt
+  
 # ENTRYPOINT ["/bin/zsh"]
