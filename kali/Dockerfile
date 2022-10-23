@@ -28,7 +28,7 @@ RUN python3 -m pip install flask\
   && python3 C2-crackHash.py &
 
 # Set up Exfil
-RUN git clone https://github.com/IngoKl/HTTPUploadExfil.git /opt \
+RUN git clone https://github.com/IngoKl/HTTPUploadExfil.git /opt/HTTPUploadExfil \
   && cd /opt/HTTPUploadExfil
   
 CMD cd /opt/HTTPUploadExfil\
