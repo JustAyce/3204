@@ -25,5 +25,5 @@ COPY C2-crackHash.py .
 
 RUN python3 -m pip install flask
 CMD python3 C2-crackHash.py
-
+EXPOSE 80
 # ENTRYPOINT ["/bin/zsh"]
