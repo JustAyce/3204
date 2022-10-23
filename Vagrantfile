@@ -46,11 +46,9 @@ Vagrant.configure("2") do |config|
         snap install docker
         git clone https://github.com/JustAyce/3204.git /home/vagrant/3204
         chmod 755 -R /home/vagrant/3204/ELK
-        chmod 755 -R /home/vagrant/3204/snort
-        chmod 755 -R /home/vagrant/3204/vyos
+        chmod 755 -R /home/vagrant/3204/kali
         chmod 755 -R /home/vagrant/3204/setup.sh
-        # /home/vagrant/3204/setup.sh
-        /home/vagrant/3204/vyos/build-vyos.sh
+        /home/vagrant/3204/setup.sh
       SHELL
     end
   end
