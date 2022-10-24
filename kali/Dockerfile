@@ -24,15 +24,6 @@ RUN sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/inst
 # Crack Password
 COPY C2-crackHash.py .
 
-#RUN python3 -m pip install flask
-#CMD python3 C2-crackHash.py
-#RUN python3 -m pip install flask\
- # && python3 C2-crackHash.py &
-
-
-
-#RUN python3 -m pip install flask\
- # && python3 C2-crackHash.py &
 # Set up Exfil
 RUN git clone https://github.com/IngoKl/HTTPUploadExfil.git /opt/HTTPUploadExfil
 
@@ -41,8 +32,11 @@ RUN git clone https://github.com/IngoKl/HTTPUploadExfil.git /opt/HTTPUploadExfil
 CMD cd /opt/HTTPUploadExfil \
  && go build
 
-#Set back the directory to /root
-#WORKDIR /root
+#Set up HoaxShell
+RUN git clone https://github.com/t3l3machus/hoaxshell.git /opt/Hoaxshell \
+ && cd /opt/Hoaxshell \
+ && chmod +x hoaxshell.py
+
 RUN python3 -m pip install flask
 CMD python3 C2-crackHash.py
 
