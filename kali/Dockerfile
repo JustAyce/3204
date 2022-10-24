@@ -24,26 +24,24 @@ RUN sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/inst
 # Crack Password
 COPY C2-crackHash.py .
 
-RUN python3 -m pip install flask\
-  && python3 C2-crackHash.py &
-
 # Set up Exfil
-RUN git clone https://github.com/IngoKl/HTTPUploadExfil.git /opt/HTTPUploadExfil \
-  && cd /opt/HTTPUploadExfil
-  
-CMD cd /opt/HTTPUploadExfil\
-  && go build
+RUN git clone https://github.com/IngoKl/HTTPUploadExfil.git /opt/HTTPUploadExfil
 
-#added this
-RUN /opt/HTTPUploadExfil/httpuploadexfil :1337 /home/vagrant/exfildata &
+#Set work directory to the HTTP for the building
+#WORKDIR /opt/HTTPUploadExfil/
+CMD cd /opt/HTTPUploadExfil \
+ && go build
 
-# Set up Hoax Shell
-RUN git clone https://github.com/t3l3machus/hoaxshell.git /opt/hoaxshell \
-  && cd /opt/hoaxshell
-  #&& chmod +x /opt/hoaxshell/hoaxshell.py #added this
+#Set up HoaxShell
+RUN git clone https://github.com/t3l3machus/hoaxshell.git /opt/Hoaxshell \
+ && cd /opt/Hoaxshell \
+ && chmod +x hoaxshell.py \
+ && pip3 install -r requirements.txt
 
-#RUN python3 /opt/hoaxshell/hoaxshell.py -o -s 10.0.0.100 &
+RUN python3 -m pip install flask
+CMD python3 C2-crackHash.py
 
-RUN pip3 install -r /opt/hoaxshell/requirements.txt
-  
+#RUN python3 -m pip install flask\
+ #&& python3 C2-crackHash.py &
+
 # ENTRYPOINT ["/bin/zsh"]
