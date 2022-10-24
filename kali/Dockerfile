@@ -35,7 +35,8 @@ CMD cd /opt/HTTPUploadExfil \
 #Set up HoaxShell
 RUN git clone https://github.com/t3l3machus/hoaxshell.git /opt/Hoaxshell \
  && cd /opt/Hoaxshell \
- && chmod +x hoaxshell.py
+ && chmod +x hoaxshell.py \
+ && pip3 install -r requirements.txt
 
 RUN python3 -m pip install flask
 CMD python3 C2-crackHash.py
