@@ -33,10 +33,5 @@ RUN git clone https://github.com/IngoKl/HTTPUploadExfil.git /opt \
   
 CMD cd /opt/HTTPUploadExfil\
   && go build
-
-# Set up Hoaxshell
-RUN git clone https://github.com/t3l3machus/hoaxshell.git /opt \
-  && cd /opt/hoaxshell
-  && chmod +x hoaxshell.py
   
 # ENTRYPOINT ["/bin/zsh"]
