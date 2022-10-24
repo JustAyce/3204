@@ -24,14 +24,29 @@ RUN sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/inst
 # Crack Password
 COPY C2-crackHash.py .
 
-RUN python3 -m pip install flask\
-  && python3 C2-crackHash.py &
+#RUN python3 -m pip install flask
+#CMD python3 C2-crackHash.py
+#RUN python3 -m pip install flask\
+ # && python3 C2-crackHash.py &
 
+
+
+#RUN python3 -m pip install flask\
+ # && python3 C2-crackHash.py &
 # Set up Exfil
-RUN git clone https://github.com/IngoKl/HTTPUploadExfil.git /opt \
-  && cd /opt/HTTPUploadExfil
-  
-CMD cd /opt/HTTPUploadExfil\
-  && go build
-  
+RUN git clone https://github.com/IngoKl/HTTPUploadExfil.git /opt/HTTPUploadExfil
+
+#Set work directory to the HTTP for the building
+#WORKDIR /opt/HTTPUploadExfil/
+CMD cd /opt/HTTPUploadExfil \
+ && go build
+
+#Set back the directory to /root
+#WORKDIR /root
+RUN python3 -m pip install flask
+CMD python3 C2-crackHash.py
+
+#RUN python3 -m pip install flask\
+ #&& python3 C2-crackHash.py &
+
 # ENTRYPOINT ["/bin/zsh"]
