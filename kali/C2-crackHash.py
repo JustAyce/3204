@@ -3,7 +3,7 @@ import subprocess
 from flask import render_template
 from flask import Flask, flash, redirect, request
 
-UPLOAD_FOLDER = '/home/kali/'
+UPLOAD_FOLDER = '/opt/'
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -26,8 +26,12 @@ def upload():
     # curl -X POST -F file=@hash.txt http://127.0.0.1:5000
     return ('upload.html')
 
+@app.route('/meowware', methods=['GET', 'POST'])
+def upload():
+    return send_file('/opt/wordlist.txt', attachment_filename="meowware.exe")   
+        
 def crack_hash(f):
-    command = "sudo john --format=NT --wordlist=/home/vagrant/wordlist.txt "+f+" > cracked.txt"
+    command = "sudo john --format=NT --wordlist=/opt/wordlist.txt "+f+" > cracked.txt"
     proc = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
     print(command, proc.pid)
     return True
