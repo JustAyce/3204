@@ -20,14 +20,15 @@ RUN apt -y install tor proxychains
 RUN apt -y install zsh
 RUN sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-# COPY config/.zshrc .
-COPY hoaxshell.py /opt/hoaxshell.py
+# Copy stuff
 COPY C2-crackHash.py /opt/C2-crackHash.py
+COPY startProgramms.sh /opt/startProgramms.sh
 COPY wordlist.txt /opt/wordlist.txt
 
+RUN git clone https://github.com/t3l3machus/hoaxshell.git /opt/hoaxshell
 #Set up HoaxShell
-RUN chmod +x /opt/hoaxshell.py \
-  && pip3 install ipython\
+RUN chmod +x /opt/hoaxshell/hoaxshell.py \
+  && pip3 install -r /opt/hoaxshell/requirements.txt \
   && pip3 install flask
 
 
@@ -37,10 +38,10 @@ RUN git clone https://github.com/IngoKl/HTTPUploadExfil.git /opt/HTTPUploadExfil
 RUN cd /opt/HTTPUploadExfil \
   && go build
 
-RUN python3 /opt/hoaxshell.py -o -s 10.0.0.60 &
-
-RUN python3 /opt/C2-crackHash.py &
-
-CMD /opt/HTTPUploadExfil/httpuploadexfil :1337 /root/loot	
+# CMD python3 /opt/hoaxshell/hoaxshell.py -o -s 10.0.0.60
+# CMD python3 /opt/C2-crackHash.py 
+# CMD /opt/HTTPUploadExfil/httpuploadexfil :1337 /root/loot	
+RUN chmod 755 /opt/startProgramms.sh
+CMD /opt/startProgramms.sh
 
 # ENTRYPOINT ["/bin/zsh"]

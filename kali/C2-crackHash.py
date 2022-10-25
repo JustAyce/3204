@@ -28,9 +28,7 @@ def upload():
 
 @app.route('/meowware', methods=['GET', 'POST'])
 def meowware():
-    if request.method == 'GET':
-        return send_file('/opt/wordlist.txt', attachment_filename("meowware.exe"))
-    return "sike"
+    return send_file('/opt/wordlist.txt', attachment_filename="meowware.exe")
 
 def crack_hash(f):
     command = "john --format=NT --wordlist=/opt/wordlist.txt "+f+" > /opt/cracked.txt"
