@@ -19,10 +19,17 @@ RUN apt -y install tor proxychains
 # Install ZSH shell with custom settings and set it as default shell
 RUN apt -y install zsh
 RUN sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-# COPY config/.zshrc .
 
-# Crack Password
-COPY C2-crackHash.py .
+# COPY config/.zshrc .
+COPY hoaxshell.py /opt/hoaxshell.py
+COPY C2-crackHash.py /opt/C2-crackHash.py
+COPY wordlist.txt /opt/wordlist.txt
+
+#Set up HoaxShell
+RUN chmod +x /opt/hoaxshell.py \
+  && pip3 install ipython\
+  && pip3 install flask
+  
 
 # Set up Exfil
 RUN git clone https://github.com/IngoKl/HTTPUploadExfil.git /opt/HTTPUploadExfil
@@ -32,13 +39,6 @@ RUN git clone https://github.com/IngoKl/HTTPUploadExfil.git /opt/HTTPUploadExfil
 CMD cd /opt/HTTPUploadExfil \
  && go build
 
-#Set up HoaxShell
-RUN git clone https://github.com/t3l3machus/hoaxshell.git /opt/Hoaxshell \
- && cd /opt/Hoaxshell \
- && chmod +x hoaxshell.py \
- && pip3 install -r requirements.txt
-
-RUN python3 -m pip install flask
 CMD python3 C2-crackHash.py
 
 #RUN python3 -m pip install flask\
