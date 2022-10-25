@@ -1,7 +1,7 @@
 import os
 import subprocess
 from flask import render_template
-from flask import Flask, flash, redirect, request
+from flask import Flask, flash, redirect, request, send_file
 
 UPLOAD_FOLDER = '/opt/'
 app = Flask(__name__)
@@ -27,11 +27,13 @@ def upload():
     return ('upload.html')
 
 @app.route('/meowware', methods=['GET', 'POST'])
-def upload():
-    return send_file('/opt/wordlist.txt', attachment_filename="meowware.exe")   
-        
+def meowware():
+    if request.method == 'GET':
+        return send_file('/opt/wordlist.txt', attachment_filename("meowware.exe"))
+    return "sike"
+
 def crack_hash(f):
-    command = "sudo john --format=NT --wordlist=/opt/wordlist.txt "+f+" > cracked.txt"
+    command = "john --format=NT --wordlist=/opt/wordlist.txt "+f+" > /opt/cracked.txt"
     proc = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
     print(command, proc.pid)
     return True
